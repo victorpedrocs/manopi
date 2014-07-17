@@ -11,7 +11,19 @@ public class PedidoPizza {
 		this.pedido = pedido;
 		this.quantidade = quantidade;
 	}
-	
+	public boolean validFields(){
+		if(this.quantidade != null && this.pizza != null && this.pedido != null){
+			if(this.pizza.getCodigo() != null && this.pedido.getCodigo() != null)
+				return true;
+		}
+		return false;
+	}
+	public Double calculaTotal(){
+		if(this.pizza != null && this.pizza.getPreco() != null && this.quantidade != null){
+			return this.quantidade*this.pizza.getPreco();
+		}
+		return null;
+	}
 
 	public Pizza getPizza() {
 		return pizza;

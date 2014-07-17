@@ -1,3 +1,4 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="controller.PedidoControle"%>
 <%@page import="controller.CardapioControle"%>
 <%@page import="java.util.List"%>
@@ -7,7 +8,7 @@
 
 
 <body>
-	
+	<div class="container">
 			<h3>Novo pedido</h3>
 			<table>
 		
@@ -22,10 +23,24 @@
 			
 			<a href="#modal" id="linkAdicionarPizzas">Adicionar pizzas</a>
 			
-			<%
-			
-			if(session.getAttribute("detalhesPizza") != null) {
-			%>
+			<% if(session.getAttribute("itens") != null) {%>
+				<table>
+					<%for(PedidoPizza itemPedido : (ArrayList<PedidoPizza>) session.getAttribute("itens")){%>
+							<tr>
+								<td>Sabor : <%itemPedido.getPizza().getNome(); %></td>
+								<td>
+									<table>
+										<tr>
+											<td>Quantidade : <%itemPedido.getQuantidade(); %></td>
+										</tr>
+										<tr>
+											<td>Valor: <%itemPedido.calculaTotal(); %></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						<%}%>
+				</table>
 				<input type="submit" value="Forma de Pagamento" id="inputFecharPedido">
 			<%
 			}
@@ -39,7 +54,7 @@
 
 						for (Pagamento pagamento : formasDePagamento) {
 					%>
-							<option><%=pagamento.getFormaDePagamento() %></option>
+							<option value="<%pagamento.getCodigo();%>"><%=pagamento.getFormaDePagamento() %></option>
 					<%
 						}
 					%>
@@ -84,35 +99,35 @@
 		
 		
 		<div class="clear"></div>
-		
+		</div>
 	</body>
 
-<div id="modal">
-	<div >
-		<form action="AdicionaPizzaServlet">
-			<div>
-				<p>Sabor:</p><select name="sabor">
-					<%
-					CardapioControle cc = new CardapioControle();
-					ArrayList<Pizza> cardapio = cc.listarPizzas();
-						
-						for(Pizza pizza: cardapio) {
-					%>
-							<option><%=pizza.getNome()%></option>
-					<%
-						}
-					%>
-				</select>
-			</div>
-			<div>
-				<p>Quantidade:</p><input type="text" name="quantidade"/>
-			</div>
-			<div>
-				<input type="submit" value="Adicionar" />
-				<a href="#" class="button">Cancelar</a>
-			</div>
-		</form>
+	<div id="modal">
+		<div >
+			<form action="AdicionaPizzaServlet">
+				<div>
+					<p>Sabor:</p><select name="nomePizza">
+						<%
+						CardapioControle cc = new CardapioControle();
+						ArrayList<Pizza> cardapio = cc.listarPizzas();
+							
+							for(Pizza pizza: cardapio) {
+						%>
+								<option><%=pizza.getNome()%></option>
+						<%
+							}
+						%>
+					</select>
+				</div>
+				<div>
+					<p>Quantidade:</p><input type="text" name="quantidade"/>
+				</div>
+				<div>
+					<input type="submit" value="Adicionar" />
+					<a href="#" class="button">Cancelar</a>
+				</div>
+			</form>
+		</div>
 	</div>
-</div>
 
 <%@ include file="footer.jsp"%>

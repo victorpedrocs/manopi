@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,16 +14,10 @@ import controller.ConnectionFactory;
 
 public class PedidoDAO {
 
-	//private Connection connection;
+	private Connection connection;
 	
-	public PedidoDAO() {
-		
-	}
-	
-	public Pedido recuperaPedido(String nome) {
-	
-		//Tem que fazer esse método//
-		return null;
+	public PedidoDAO(Connection con) {
+		this.connection = con;
 	}
 	
 	public Collection<Pedido> retrieve(Pedido pedido){
@@ -30,22 +25,26 @@ public class PedidoDAO {
 		ResultSet result;
 		
 		try {
-			statement = ConnectionFactory.getConnection().createStatement();
+			statement = this.connection.createStatement();
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT codigo, cliente_fk, forma_de_pagamento_fk FROM pedido WHERE 1=1 ");
 			
-			Integer codigo = pedido.getCodigo();
+			String codigo = pedido.getCodigo();
 			Cliente cliente = pedido.getCliente();
 			Pagamento formaPagamento = pedido.getFormaPagamento();
+			Double totalPago = pedido.getTotalPago();
 			
 			if (codigo != null) {
-				sql.append("AND codigo = ").append(codigo);
+				sql.append("AND codigo = '").append(codigo).append("'");
 			}
 			if (cliente != null && cliente.getCodigo() != null) {
 				sql.append("AND cliente_fk = ").append(cliente.getCodigo());
 			}
 			if (formaPagamento != null && formaPagamento.getCodigo() != null) {
-				sql.append("AND forma_de_pagamento_fk = ").append(pedido);
+				sql.append("AND forma_de_pagamento_fk = ").append(formaPagamento.getCodigo());
+			}
+			if (totalPago != null) {
+				sql.append("AND total_pago = ").append(totalPago);
 			}
 			
 			sql.append("ORDER BY data_hora DESC");
@@ -55,7 +54,9 @@ public class PedidoDAO {
 			
 			ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 			while (result.next()) {
-				pedidos.add(new Pedido(result.getInt("CODIGO"), new Cliente(result.getInt("CLIENTE_FK"), null, null, null, null) , new Pagamento(result.getInt("FORMA_DE_PAGAMENTO_FK"), null)));
+				Cliente clienteResultado = new ClienteDAO().retrieve(new Cliente(result.getInt("CLIENTE_FK"), null, null, null));
+				Pagamento pagamentoResultado = new PagamentoDAO(this.connection).retrieve(new Pagamento(result.getInt("FORMA_DE_PAGAMENTO_FK"), null)).iterator().next();
+				pedidos.add(new Pedido(result.getString("CODIGO"), clienteResultado , pagamentoResultado, result.getDouble("TOTAL_PAGO")));
 			}
 			
 			return pedidos;
@@ -66,13 +67,13 @@ public class PedidoDAO {
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage()));
 			return null;
 		}
-		finally {
+		/*finally {
 			try {
 				ConnectionFactory.getConnection().close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	public boolean create(Pedido pedido){
@@ -83,7 +84,8 @@ public class PedidoDAO {
 			statement = ConnectionFactory.getConnection().createStatement();
 			StringBuilder sql = new StringBuilder();
 			if (pedido.validFields()) {
-				sql.append("INSERT INTO pedido (cliente_fk, forma_de_pagamento_fk, data_hora) VALUES(")
+				sql.append("INSERT INTO pedido (codigo, cliente_fk, forma_de_pagamento_fk, data_hora) VALUES(")
+					.append("'").append(pedido.getCodigo()).append("'")
 					.append(pedido.getCliente().getCodigo()).append(",")
 					.append(pedido.getFormaPagamento().getCodigo()).append(",")
 					.append("current_timestamp)");
@@ -99,13 +101,13 @@ public class PedidoDAO {
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage())); e.printStackTrace();
 			return false;
 		}
-		finally {
+		/*finally {
 			try {
 				ConnectionFactory.getConnection().close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 
 	
@@ -154,101 +156,24 @@ public class PedidoDAO {
 
 		public void cancelarPedido(int codPedido) {
 
-        String sql = "DELETE FROM pedido WHERE codigo = ?";
+	        String sql = "DELETE FROM pedido WHERE codigo = ?";
+	
+	        PreparedStatement pstm = null;
+	
+	        try {
+	
+	                pstm = ConnectionFactory.getConnection().prepareStatement(sql);
+	
+	                pstm.setDouble(1, codPedido);
+	
+	                pstm.executeUpdate();
+	 
+	        } catch (SQLException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	        }
 
-        PreparedStatement pstm = null;
-
-        try {
-
-                pstm = ConnectionFactory.getConnection().prepareStatement(sql);
-
-                pstm.setDouble(1, codPedido);
-
-                pstm.executeUpdate();
-
-        } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        }
-
-}
-
-		/*public Collection<HistoricoPedido> recuperarPedidos(Cliente cliente) {
-			
-			
-
-        String sql = "SELECT "
-                        + "pedido.codigo, "
-                        + "pedido.data_hora, "
-                        + "pizza.nome, "
-                        + "pizza.preco, "
-                        + "pizza_pedido.quantidade, "
-                        + "pedido.valor_total, "
-                        + "pedido.valor_troco, "
-                        + "pagamento.tipo_pagamento "
-                        + "FROM pedido "
-                        + "JOIN item_pedido "
-                        + "ON pedido.cod_pedido = item_pedido.cod_pedido "
-                        + "JOIN pizza "
-                        + "ON item_pedido.cod_pizza = pizza.cod_pizza "
-                        + "JOIN pagamento "
-                        + "ON pedido.cod_pagamento = pagamento.cod_pagamento "
-                        + "WHERE pedido.cpf_cliente = ? "
-                        + "ORDER BY pedido.data_pedido";
-
-        PreparedStatement pstm = null;
-        
-        HashMap<Integer, HistoricoPedido> pedidos = new HashMap<>();
-
-        try {
-
-                pstm = ConnectionFactory.getConnection().prepareStatement(sql);
-
-                pstm.setString(1, ""+cliente.getCodigo());
-
-                ResultSet resultado = pstm.executeQuery();
-
-                while (resultado.next()) {
-                        
-                        int cod_pedido = resultado.getInt(1);
-                        
-                        if (pedidos.containsKey(cod_pedido)) {
-                                
-                                HistoricoPedido temp = pedidos.get(cod_pedido);
-                                
-                                String nome_pizza = resultado.getString(3); 
-                                double valor_pizza = resultado.getDouble(4);
-                                int quantidade = resultado.getInt(5); 
-                                
-                                temp.adicionarNovoItem(nome_pizza, valor_pizza, quantidade);
-                                
-                        } else {
-                                
-                                Timestamp data_pedido = resultado.getTimestamp(2);
-                                String nome_pizza = resultado.getString(3); 
-                                double valor_pizza = resultado.getDouble(4);
-                                int quantidade = resultado.getInt(5);
-                                double valor_total = resultado.getDouble(6);
-                                String pagamento = resultado.getString(8);
-                                
-                                HistoricoPedido temp = new HistoricoPedido(data_pedido, valor_total, pagamento);
-                                
-                                temp.adicionarNovoItem(nome_pizza, valor_pizza, quantidade);
-                                
-                                pedidos.put(cod_pedido, temp);
-                                
-                        }
-                }
-
-        } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        }
-
-        return pedidos.values();
-
-}
-*/
+		}
 		
 
 		

@@ -9,8 +9,8 @@ create table cliente(
 
 create table pizza(
   codigo serial primary key,
-  nome ,
-  ingredientes ,
+  nome varchar(50),
+  ingredientes varchar(100),
   preco real
 );
 
@@ -20,7 +20,7 @@ create table forma_de_pagamento(
 );
 
 create table pedido(
-  codigo serial primary key,
+  codigo varchar primary key,
   cliente_fk integer,
   forma_de_pagamento_fk integer,
   data_hora timestamp,
@@ -31,7 +31,7 @@ create table pedido(
 
 create table pedido_pizza(
   pizza_fk integer,
-  pedido_fk integer,
+  pedido_fk varchar,
   quantidade integer,
 
   constraint fk_pp_pedido foreign key (pedido_fk) references pedido (codigo),

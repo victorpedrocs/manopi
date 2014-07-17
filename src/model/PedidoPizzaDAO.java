@@ -21,7 +21,7 @@ public class PedidoPizzaDAO {
 		Statement statement;
 		ResultSet result;
 		
-		PedidoDAO pedidoDAO = new PedidoDAO();
+		PedidoDAO pedidoDAO = new PedidoDAO(this.connection);
 		PizzaDAO pizzaDAO = new PizzaDAO();
 		
 		try {
@@ -45,7 +45,7 @@ public class PedidoPizzaDAO {
 			ArrayList<PedidoPizza> itensPedido = new ArrayList<>();
 			while (result.next()) {
 				pizza = pizzaDAO.retrieve( new Pizza(result.getInt("PIZZA_FK"), null, null, null)).iterator().next();
-				pedido = pedidoDAO.retrieve( new Pedido(result.getInt("PEDIDO_FK"), null, null)).iterator().next();
+				pedido = pedidoDAO.retrieve( new Pedido(result.getString("PEDIDO_FK"), null, null, null)).iterator().next();
 				
 				itensPedido.add(new PedidoPizza(pizza, pedido, result.getInt("QUANTIDADE")));
 			}
@@ -57,13 +57,46 @@ public class PedidoPizzaDAO {
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage()));
 			return null;
 		}
-		finally {
+		/*finally {
 			try {
 				this.connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}*/
+	}
+	
+	public boolean create(PedidoPizza itemPedido){
+		Statement statement;
+		
+		try {
+			
+			statement = ConnectionFactory.getConnection().createStatement();
+			StringBuilder sql = new StringBuilder();
+			if (itemPedido.validFields()) {
+				sql.append("INSERT INTO pedido_pizza (pizza_fk, pedido_fk, quantidade) VALUES(")
+					.append(itemPedido.getPizza().getCodigo()).append(",")
+					.append("'").append(itemPedido.getPedido().getCodigo()).append("',")
+					.append(itemPedido.getQuantidade());
+			}
+			
+			
+			statement.executeUpdate(sql.toString());
+			statement.close();
+			return true;
+			
+		} catch (SQLException e) {
+			System.err.println("ERRO de SQL, tente novamente");
+			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage())); e.printStackTrace();
+			return false;
 		}
+		/*finally {
+			try {
+				ConnectionFactory.getConnection().close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}*/
 	}
 	
 	

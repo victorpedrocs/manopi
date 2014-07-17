@@ -19,6 +19,7 @@ import model.Pagamento;
 import model.PagamentoDAO;
 import model.Pedido;
 import model.PedidoDAO;
+import model.PedidoPizza;
 
 /**
  * Servlet implementation class FecharPedidoServlet
@@ -46,50 +47,28 @@ public class FecharPedidoServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	
-	//Fazer Esse método funcionar//
+	// TODO Fazer Esse método funcionar//
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession sessao = request.getSession(true);
+		
+		HttpSession session = request.getSession(true);
+		PedidoControle pedidoControle = new PedidoControle();
         
-        Cliente clienteLogado = (Cliente) sessao.getAttribute("clienteLogado");
+		//Recupera variáveis de sessão
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+        Double valorTotal = (Double) session.getAttribute("valorTotal");
+        Pedido pedido = (Pedido) session.getAttribute("pedido");
+        Collection<PedidoPizza> itensPedido = (Collection<PedidoPizza>) session.getAttribute("itens");
         
-        double valorTotal = (double) sessao.getAttribute("valorTotal");
+        //Recupera variáveis do form
+        Integer formaPagamento = Integer.parseInt(request.getParameter("formaDePagamento"));
+        Double valorTroco = Double.parseDouble(request.getParameter("valorTroco"));
         
         // TODO Pegar a forma de pagamento e o troco para setar na sessao;
+        Pagamento pagamento = pedidoControle.recuperarFormaPagamento( new Pagamento(formaPagamento, null));
+        pedidoControle.fecharPedido(pedido, pagamento, itensPedido, valorTroco);
         
-        PedidoDAO pDAO = new PedidoDAO();
-        PagamentoDAO pagamentoDao = new PagamentoDAO(ConnectionFactory.getConnection());
         
-        //Pagamento p = new Pagamento(null,request.getParameter("formaDePagamento"));
-        double valorTroco = 0;
         
-        if(request.getParameter("valorTroco") != "") {
-                valorTroco = Double.parseDouble(request.getParameter("valorTroco"));
-        }
-        
-        /*GAMBIARRA*/
-        
-       /* Pagamento pagamento = pDAO.recuperarPagamento(tipo_pagamento);
-        
-        Pedido novo_pedido = new Pedido(clienteLogado, pagamento, valorTroco, valor_total);
-
-        int cod_pedido = pDAO.CadastrarNovoPedido(novo_pedido);
-        
-        HashMap<String, ItemPedido> itens = (HashMap<String, ItemPedido>) sessao.getAttribute("itens");
-        
-        for (ItemPedido item : itens.values()) {
-                item.setCod_pedido(cod_pedido);
-                pDAO.CadastrarNovoItem(item);
-        }
-        
-        sessao.removeAttribute("itens");
-        sessao.removeAttribute("detalhesPizza");
-        sessao.removeAttribute("valorTotal");
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/pedidos.jsp");
-        
-        rd.forward(request,response);
-
-	}*/
         
 	}
 

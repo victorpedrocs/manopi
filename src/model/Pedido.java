@@ -2,20 +2,37 @@ package model;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.UUID;
 
 import controller.ConnectionFactory;
 
 public class Pedido {
 	
-	private Integer codigo;
+	private UUID codigo;
 	private Cliente cliente;
 	private Pagamento formaPagamento;
 	private Timestamp dataHora;
+	private Double totalPago;
 	
-	public Pedido(Integer codigo, Cliente cliente, Pagamento formaPagamento) {
-		this.codigo = codigo;
+	public Pedido(String codigo, Cliente cliente, Pagamento formaPagamento, Double totalPago) {
+		this.codigo = codigo != null ? UUID.fromString(codigo) : UUID.randomUUID();
 		this.cliente = cliente;
 		this.formaPagamento = formaPagamento;
+		this.totalPago = totalPago;
+	}
+	
+	public Pedido(Cliente cliente, Pagamento pagamento) {
+		this.codigo = UUID.randomUUID();
+		this.cliente = cliente;
+		this.formaPagamento = pagamento;
+	}
+	
+	public boolean atualizarTotalPago(Double total){
+		if (total != null) {
+			this.totalPago = total;
+			return true;
+		}
+		return false;
 	}
 
 	public boolean validFields(){
@@ -27,12 +44,18 @@ public class Pedido {
 		return false;
 	}
 
-
+	public Boolean alterarFormaDePagamento(Pagamento pagamento){
+		if (pagamento != null && pagamento.getCodigo() != null) {
+			this.formaPagamento = pagamento;
+			return true;
+		}
+		return false;
+	}
 	
 	public Collection<PedidoPizza> recuperarItensPedido(){
 		PedidoPizzaDAO pedPizzaDAO = new PedidoPizzaDAO(ConnectionFactory.getConnection());
 		
-		Collection<PedidoPizza> itensPedido = pedPizzaDAO.retrieve(new PedidoPizza(null, new Pedido(this.codigo, null, null), null));
+		Collection<PedidoPizza> itensPedido = pedPizzaDAO.retrieve(new PedidoPizza(null, new Pedido(this.codigo.toString(), null, null, null), null));
 		
 		return itensPedido;
 	}
@@ -46,8 +69,8 @@ public class Pedido {
 		return valor;
 	}
 	
-	public Integer getCodigo() {
-		return codigo;
+	public String getCodigo() {
+		return codigo.toString();
 	}
 
 	public Cliente getCliente() {
@@ -61,7 +84,9 @@ public class Pedido {
 	public Timestamp getDataHora() {
 		return dataHora;
 	}
-	
+	public Double getTotalPago(){
+		return totalPago;
+	}
 	
 	
 

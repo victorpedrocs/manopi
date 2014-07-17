@@ -35,7 +35,7 @@
 		                    <span class="icon-bar"></span>
 		                    <span class="icon-bar"></span>
 		                </button>
-		                <a class="navbar-brand" href="#home">Pizzaria do Manolo</a>
+		                <a class="navbar-brand" href="index.jsp">Pizzaria do Manolo</a>
 		            </div>
 
 		            <!-- Collect the nav links, forms, and other content for toggling -->
@@ -46,7 +46,7 @@
 		                <!-- Login button with dropdown -->
 		                <ul class="nav pull-right navbar-nav">
 		                <%if(request.getSession().getAttribute("clienteLogado") != null){%>
-							<font color= "white">Olá, <%= request.getSession().getAttribute("nomeClienteLogado") %>
+							<li><a>Olá, <%= request.getSession().getAttribute("nomeClienteLogado") %></a></li>
 						<% }else{ %>
 		                    <li> <a href="login.jsp">Login</a></li>
 		                <% } %>

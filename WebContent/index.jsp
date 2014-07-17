@@ -12,7 +12,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" id="principal" style="margin-top=10px;">
 
         <div class="row">
 
@@ -93,3 +93,4 @@
     </div>
     <!-- /.container -->
 
+<%@ include file="footer.jsp"%>

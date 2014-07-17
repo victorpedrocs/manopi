@@ -9,7 +9,7 @@ public class ConnectionFactory {
 
 	private static String user =  "postgres";
 	private static String password =  "postgres";
-	private static final String url = "jdbc:postgresql://localhost:5432/web_pizzaria";
+	private static final String url = "jdbc:postgresql://localhost:5432/web_pizza";
 	
 	
 	public static Connection getConnection(){

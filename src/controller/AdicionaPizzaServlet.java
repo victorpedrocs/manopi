@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -11,8 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
+import model.Cliente;
 import model.ItemPedido;
+import model.Pedido;
+import model.PedidoPizza;
 import model.Pizza;
 import model.PizzaDAO;
 
@@ -47,60 +52,71 @@ public class AdicionaPizzaServlet extends HttpServlet {
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         
-        String sabor = request.getParameter("sabor");
-        int quantidade = Integer.parseInt(request.getParameter("quantidade"));
-        
+		/*
+		 * Atributos da sessão
+		 * Pedido
+		 * Itens
+		 * clienteLogado
+		 * detalhesPizza
+		 * valorTotal
+		 * */
+        String sabor = request.getParameter("nomePizza");
+        Integer quantidade = Integer.parseInt(request.getParameter("quantidade"));
         PizzaDAO pizzaDAO = new PizzaDAO();
         
-        HttpSession sessao = request.getSession(true);
+        HttpSession session = request.getSession(true);
         
         try {
                 
-                Pizza pizza  = pizzaDAO.recuperarPizza(sabor);
-                ItemPedido item = new ItemPedido(pizza, quantidade);
+    		Pedido pedido = (Pedido) session.getAttribute("pedido");
+    		Pizza pizza  = pizzaDAO.recuperarPizza(sabor);
+    		PedidoPizza itemPedido;
+    		
+    		if (pedido != null) {
+    			itemPedido = new PedidoPizza(pizza, pedido, quantidade);
+			}
+    		else {
+    			Cliente cliente = (Cliente) session.getAttribute("clienteLogado");
+    			pedido = new Pedido(cliente, null);
+    			session.setAttribute("pedido", pedido);
+    			itemPedido = new PedidoPizza(pizza, pedido, quantidade);
+    		}
+            
+            
+            if (session.getAttribute("itens") == null) {
+                    
+        		ArrayList<PedidoPizza> itens = new ArrayList<PedidoPizza>();
                 
-                if (sessao.getAttribute("itens") == null) {
-                        
-                        HashMap<String, ItemPedido> itens = new HashMap<>();
-                        
-                        itens.put(sabor, item);
-                        
-                        sessao.setAttribute("itens", itens);
-                        
-                } else {
-                        
-                        @SuppressWarnings("unchecked")
-                        HashMap<String, ItemPedido> itens = (HashMap<String, ItemPedido>) sessao.getAttribute("itens");
-                        
-                        itens.put(sabor, item);
-                        
-                        sessao.setAttribute("itens", itens);
-                        
-                }
+                itens.add(itemPedido);
+                
+                session.setAttribute("itens", itens);
+                    
+	        } else {
+	              
+	            ArrayList<PedidoPizza> itens = (ArrayList<PedidoPizza>) session.getAttribute("itens");
+	            
+	            itens.add(itemPedido);
+	            
+	            session.setAttribute("itens", itens);
+                    
+            }
                 
         } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
         }
         
-        
-        @SuppressWarnings("unchecked")
-        HashMap<String, ItemPedido> itens = (HashMap<String, ItemPedido>) sessao.getAttribute("itens");
+        ArrayList<PedidoPizza> itens = (ArrayList<PedidoPizza>) session.getAttribute("itens");
         
         String detalhesPizza = "";
         double valorTotal = 0;
         
-        for (ItemPedido item : itens.values()) {
-                
-                String imgRemover = "<form action='removePizzaPedido'><input type='hidden' name='nomePizzaRemover' value='" + item.getNome_pizza() + "'><input type='image' src='images/delete.png' alt='Remover'></form>";
-                
-                detalhesPizza += "<tr><td>Sabor: " + item.getNome_pizza() + " (" + item.getQuantidade() + ") - R$ " + item.getTotal() + "</td><td>" + imgRemover + "</td></tr>";
-                valorTotal += item.getTotal();
-                
+        for (PedidoPizza item : itens) {
+            valorTotal += item.calculaTotal();
         }
         
-        sessao.setAttribute("detalhesPizza", detalhesPizza);
-        sessao.setAttribute("valorTotal", valorTotal);
+        session.setAttribute("detalhesPizza", detalhesPizza);
+        session.setAttribute("valorTotal", valorTotal);
         
         RequestDispatcher rd = request.getRequestDispatcher("/pedidos.jsp");
         
