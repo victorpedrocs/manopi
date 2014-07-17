@@ -12,6 +12,21 @@ public class PedidoPizza {
 		this.quantidade = quantidade;
 	}
 	
+
+	public Pizza getPizza() {
+		return pizza;
+	}
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+	
+	
+	
 	
 
 }

@@ -9,9 +9,9 @@ create table cliente(
 
 create table pizza(
   codigo serial primary key,
-  nome varchar(20),
-  ingredientes varchar(50),
-  preco varchar(10)
+  nome ,
+  ingredientes ,
+  preco real
 );
 
 create table forma_de_pagamento(

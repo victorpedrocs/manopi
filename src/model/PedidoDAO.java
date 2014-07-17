@@ -19,6 +19,12 @@ public class PedidoDAO {
 		
 	}
 	
+	public Pedido recuperaPedido(String nome) {
+	
+		//Tem que fazer esse método//
+		return null;
+	}
+	
 	public Collection<Pedido> retrieve(Pedido pedido){
 		Statement statement;
 		ResultSet result;
@@ -26,7 +32,7 @@ public class PedidoDAO {
 		try {
 			statement = ConnectionFactory.getConnection().createStatement();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT codigo, cliente_fk, forma_de_pagamento_fk FROM cliente WHERE 1=1 ");
+			sql.append("SELECT codigo, cliente_fk, forma_de_pagamento_fk FROM pedido WHERE 1=1 ");
 			
 			Integer codigo = pedido.getCodigo();
 			Cliente cliente = pedido.getCliente();
@@ -105,7 +111,7 @@ public class PedidoDAO {
 	
 	public void CadastrarNovoItem(ItemPedido item) {
 
-        String sql = "INSERT INTO pedido_pizza (cod_pizza, cod_pedido, quantidade) values(?, ?, ?)";
+        String sql = "INSERT INTO pedido_pizza (pizza_fk, pedido_fk, quantidade) values(?, ?, ?)";
 
         PreparedStatement pstm = null;
 
@@ -148,7 +154,7 @@ public class PedidoDAO {
 
 		public void cancelarPedido(int codPedido) {
 
-        String sql = "DELETE FROM pedido WHERE cod_pedido = ?";
+        String sql = "DELETE FROM pedido WHERE codigo = ?";
 
         PreparedStatement pstm = null;
 
@@ -167,14 +173,16 @@ public class PedidoDAO {
 
 }
 
-		public Collection<HistoricoPedido> recuperarPedidos(Cliente cliente) {
+		/*public Collection<HistoricoPedido> recuperarPedidos(Cliente cliente) {
+			
+			
 
         String sql = "SELECT "
-                        + "pedido.cod_pedido, "
-                        + "pedido.data_pedido, "
+                        + "pedido.codigo, "
+                        + "pedido.data_hora, "
                         + "pizza.nome, "
                         + "pizza.preco, "
-                        + "item_pedido.quantidade, "
+                        + "pizza_pedido.quantidade, "
                         + "pedido.valor_total, "
                         + "pedido.valor_troco, "
                         + "pagamento.tipo_pagamento "
@@ -240,61 +248,9 @@ public class PedidoDAO {
         return pedidos.values();
 
 }
+*/
+		
 
-		public ArrayList<Pagamento> listarFormaDePagamento() throws SQLException {
-        
-        String sql = "SELECT * FROM pagamento";
-
-        PreparedStatement pstm = ConnectionFactory.getConnection().prepareStatement(sql);
-
-        ResultSet resultado = pstm.executeQuery();
-
-        int codPagamento;
-        String tipoPagamento;
-        
-        ArrayList<Pagamento> formasDePagamento = new ArrayList<Pagamento>();
-
-        while(resultado.next()) {
-                
-                codPagamento = resultado.getInt(1);
-                tipoPagamento = resultado.getString(2);
-                
-                Pagamento pagamento = new Pagamento(codPagamento, tipoPagamento);
-                
-                formasDePagamento.add(pagamento);
-        }
-
-        return formasDePagamento;
-}
-
-		public Pagamento recuperarPagamento(String tipo_pagamento) {
-        
-        String sql = "SELECT cod_pagamento FROM pagamento WHERE tipo_pagamento = ?";
-
-        PreparedStatement pstm = null;
-        
-        try {
-                
-                pstm = ConnectionFactory.getConnection().prepareStatement(sql);
-                
-                pstm.setString(1, tipo_pagamento);
-
-                ResultSet resultado = pstm.executeQuery();
-
-                if(resultado.next()) {
-                        
-                        int cod_pagamento = resultado.getInt(1);
-                        
-                        Pagamento pagamento = new Pagamento(cod_pagamento, tipo_pagamento);
-                        
-                        return pagamento;
-                }
-        } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        }
-
-        return null;
-}
+		
 
 }

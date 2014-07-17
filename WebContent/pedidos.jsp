@@ -5,52 +5,34 @@
 <%@ include file="header.jsp"%>
 <%@ page import="model.*"%>
 
-<!--==============================content=================================-->
-<section id="content">
-	<div class="border-horiz"></div>
-	<div class="container_12">
+
+<body>
 	
-		<article class="side-bar">
 			<h3>Novo pedido</h3>
-			<table class="tabelaNovoPedido">
-				<tbody>
-					${detalhesPizza}
-				</tbody>
-				<tfoot>
+			<table>
+		
 					<tr>
 						<% if(session.getAttribute("valorTotal") != null/*  && sessao.getAttribute("valorTotal") != (Object) 0.0 */) { %>
 							<td>TOTAL: R$ ${valorTotal}</td>
 						<% } %>
 					</tr>
-				</tfoot>
 			</table>
 			
-			<%-- <p>${detalhesPizza}</p>
 			
-			<% if(sessao.getAttribute("valorTotal") != null) { %>
-				<p>TOTAL: R$ ${valorTotal}</p>
-			<% } %> --%>
 			
-			<a href="#modal" class="btn" id="linkAdicionarPizzas">Adicionar pizzas</a>
+			<a href="#modal" id="linkAdicionarPizzas">Adicionar pizzas</a>
 			
 			<%
-			//HttpSession sessao = request.getSession(true);
-			
-			//sessao.invalidate();
 			
 			if(session.getAttribute("detalhesPizza") != null) {
 			%>
-				<input type="submit" value="Forma de Pagamento" class="button" id="inputFecharPedido">
-				
-				<!-- <form action="FecharPedido" method="POST">
-					<input type="submit" value="Fechar Pedido" class="button" id="inputFecharPedido">
-				</form> -->
+				<input type="submit" value="Forma de Pagamento" id="inputFecharPedido">
 			<%
 			}
 			%>
 			
 			<form action="FecharPedido" id="formFecharPedido" method="POST">
-				<select name="formaDePagamento" class="selectSaborPizza" id="selectFormaDePagamento">
+				<select name="formaDePagamento" id="selectFormaDePagamento">
 					<%
 						PedidoControle pc = new PedidoControle();
 						ArrayList<Pagamento> formasDePagamento = pc.listarFormaDePagamento();
@@ -64,68 +46,52 @@
 				</select>
 				
 				<div id="divValorTroco">
-					Troco: R$ <input type="text" name="valorTroco" class="inputEscolherPizza" style="padding-top: 5px;">
+					Troco: R$ <input type="text" name="valorTroco" style="padding-top: 5px;">
 				</div>
 				
-				<input type="submit" value="Finalizar Pedido" class="button">
+				<input type="submit" value="Finalizar Pedido" >
 			</form>
-		</article>
 		
-		<article class="grid_8">
-			<div class="padd-1"><h3>Pedidos anteriores</h3></div>
+		
+		
+			<div><h3>Pedidos anteriores</h3></div>
 			
-			<ul class="list-teachers">
+			<ul>
 
 				<%
-					ArrayList<HistoricoPedido> pedidos = pc.listarPedidos(session);
+					ArrayList<Pedido> pedidos = pc.listarPedidos();
 					
-					for (HistoricoPedido pedido : pedidos) {
+					for (Pedido pedido : pedidos) {
 				%>
 
 				<li>
-					<figure class="box-img">
-						<img src="images/pizza-menu-pedidos.jpg " alt="" />
-					</figure>
+					
 					<div class="overflow">
 						<span>DATA:</span>
-						<%=pedido.getData_formatada()%><br /> <span>TOTAL:</span> R$
-						<%=pedido.getValor_total_formatado()%><br /> <span>TIPO PAGAMENTO:</span>
-						<%=pedido.getPagamento()%><br />
+						<%=pedido.getDataHora() %><br /> <span>TOTAL:</span> R$
+						<%=pedido.recuperarValorTotal()%><br /> <span>TIPO PAGAMENTO:</span>
+						<%=pedido.getFormaPagamento()%><br />
 
-						<%
-							for (ItemPedido item : pedido.getItems()) {
-						%>
-
-						<p>SABOR: <%=item.getNome_pizza()%></p>
-						<p>VALOR: R$ <%=item.getValor_pizza_formatado()%></p>
-						<p>QUANTIDADE: <%=item.getQuantidade()%></p><br />
-
-						<%
-							}
-						%>
 
 					</div>
 					
-					<div class="clear"></div>
+					<div ></div>
 				</li>
 
 				<% } %>
 
 			</ul>
-		</article>
+		
 		
 		<div class="clear"></div>
 		
-	</div>
-</section>
+	</body>
 
 <div id="modal">
-	<div class="modal-content">
-		<form action="adicionaPizza">
+	<div >
+		<form action="AdicionaPizzaServlet">
 			<div>
-				<p>Sabor:</p>
-				<!-- <input type="text" name="sabor" class="inputEscolherPizza" /> -->
-				<select class="selectSaborPizza" name="sabor">
+				<p>Sabor:</p><select name="sabor">
 					<%
 					CardapioControle cc = new CardapioControle();
 					ArrayList<Pizza> cardapio = cc.listarPizzas();
@@ -139,11 +105,10 @@
 				</select>
 			</div>
 			<div>
-				<p>Quantidade:</p>
-				<input type="text" name="quantidade" class="inputEscolherPizza" />
+				<p>Quantidade:</p><input type="text" name="quantidade"/>
 			</div>
 			<div>
-				<input type="submit" value="Adicionar" class="button" />
+				<input type="submit" value="Adicionar" />
 				<a href="#" class="button">Cancelar</a>
 			</div>
 		</form>
