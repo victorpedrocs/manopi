@@ -9,7 +9,7 @@ public class CadastroControle {
 	
 	public CadastroControle() {
 		// TODO Auto-generated constructor stub
-		clienteDao = new ClienteDAO();
+		clienteDao = new ClienteDAO(ConnectionFactory.getConnection());
 	}
 
 	public Cliente cadastrarCliente(String login, String senha, String nome,

@@ -10,7 +10,7 @@ public class LoginControle {
 	
 	public LoginControle() {
 		// TODO Auto-generated constructor stub
-		clienteDao = new ClienteDAO();
+		clienteDao = new ClienteDAO(ConnectionFactory.getConnection());
 	}
 	
 	public void verificaUsuario(String login, String senha) {

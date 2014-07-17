@@ -62,7 +62,7 @@ public class AdicionaPizzaServlet extends HttpServlet {
 		 * */
         String sabor = request.getParameter("nomePizza");
         Integer quantidade = Integer.parseInt(request.getParameter("quantidade"));
-        PizzaDAO pizzaDAO = new PizzaDAO();
+        PizzaDAO pizzaDAO = new PizzaDAO(ConnectionFactory.getConnection());
         
         HttpSession session = request.getSession(true);
         
@@ -121,7 +121,7 @@ public class AdicionaPizzaServlet extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/pedidos.jsp");
         
         rd.forward(request,response);
-}
+	}
 }
 
 

@@ -20,7 +20,7 @@
                 <p class="lead">Pizzaria do Manolo</p>
                 <div class="list-group">
                     <a href="pedidos.jsp" class="list-group-item">Fazer Pedido</a>
-                    <a href="#" class="list-group-item">Lista de Pedidos</a>
+                    <a href="HistoricoPedido" class="list-group-item">Lista de Pedidos</a>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
 				%>
 				<div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-					<img src="http://placehold.it/320x150" alt="">
+					<img src="image/pizzas/<%=pizza.getPreco().intValue() %>.jpg" alt="">
                             <div class="caption">
                                 <h4 class="pull-right"><%=pizza.getPrecoFormatado()%></h4>
                                 <h4><%=pizza.getNome() %></h4>

@@ -61,11 +61,25 @@ public class FecharPedidoServlet extends HttpServlet {
         
         //Recupera variáveis do form
         Integer formaPagamento = Integer.parseInt(request.getParameter("formaDePagamento"));
-        Double valorTroco = Double.parseDouble(request.getParameter("valorTroco"));
+        Double valorTroco = Double.parseDouble(request.getParameter("valorTroco") != "" ? request.getParameter("valorTroco") : "0");
         
-        // TODO Pegar a forma de pagamento e o troco para setar na sessao;
-        Pagamento pagamento = pedidoControle.recuperarFormaPagamento( new Pagamento(formaPagamento, null));
-        pedidoControle.fecharPedido(pedido, pagamento, itensPedido, valorTroco);
+        if (clienteLogado != null) {
+			// TODO Pegar a forma de pagamento e o troco para setar na sessao;
+			Pagamento pagamento = pedidoControle
+					.recuperarFormaPagamento(new Pagamento(formaPagamento, null));
+			pedidoControle.fecharPedido(pedido, pagamento, itensPedido,
+					valorTroco);
+		}
+        
+        session.removeAttribute("valorTotal");
+        session.removeAttribute("pedido");
+        session.removeAttribute("itens");
+        session.removeAttribute("formaDePagamento");
+        session.removeAttribute("valorTroco");
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/pedidos.jsp");
+        rd.forward(request,response);
+        
         
         
         

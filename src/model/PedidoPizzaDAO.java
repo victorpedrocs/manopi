@@ -22,18 +22,18 @@ public class PedidoPizzaDAO {
 		ResultSet result;
 		
 		PedidoDAO pedidoDAO = new PedidoDAO(this.connection);
-		PizzaDAO pizzaDAO = new PizzaDAO();
+		PizzaDAO pizzaDAO = new PizzaDAO(this.connection);
 		
 		try {
 			statement = this.connection.createStatement();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT pizza_fk, pedido_fk, quantidade FROM cliente WHERE 1=1 ");
+			sql.append("SELECT pizza_fk, pedido_fk, quantidade FROM pedido_pizza WHERE 1=1 ");
 			
 			Pedido pedido = pedidoPizza.getPedido();
 			Pizza pizza = pedidoPizza.getPizza();
 			
 			if (pedido != null && pedido.getCodigo() != null) {
-				sql.append("AND codigo = ").append(pedido.getCodigo());
+				sql.append("AND pedido_fk = '").append(pedido.getCodigo()).append("'");
 			}
 			if (pizza != null && pizza.getCodigo() != null) {
 				sql.append("AND pizza_fk = ").append(pizza.getCodigo());
@@ -71,13 +71,13 @@ public class PedidoPizzaDAO {
 		
 		try {
 			
-			statement = ConnectionFactory.getConnection().createStatement();
+			statement = this.connection.createStatement();
 			StringBuilder sql = new StringBuilder();
 			if (itemPedido.validFields()) {
 				sql.append("INSERT INTO pedido_pizza (pizza_fk, pedido_fk, quantidade) VALUES(")
 					.append(itemPedido.getPizza().getCodigo()).append(",")
 					.append("'").append(itemPedido.getPedido().getCodigo()).append("',")
-					.append(itemPedido.getQuantidade());
+					.append(itemPedido.getQuantidade()).append(")");
 			}
 			
 			

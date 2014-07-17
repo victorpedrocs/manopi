@@ -27,14 +27,14 @@
 				<table>
 					<%for(PedidoPizza itemPedido : (ArrayList<PedidoPizza>) session.getAttribute("itens")){%>
 							<tr>
-								<td>Sabor : <%itemPedido.getPizza().getNome(); %></td>
+								<td>Sabor : <%= itemPedido.getPizza().getNome() %></td>
 								<td>
 									<table>
 										<tr>
-											<td>Quantidade : <%itemPedido.getQuantidade(); %></td>
+											<td>Quantidade : <%= itemPedido.getQuantidade() %></td>
 										</tr>
 										<tr>
-											<td>Valor: <%itemPedido.calculaTotal(); %></td>
+											<td>Valor: <%= itemPedido.calculaTotal() %></td>
 										</tr>
 									</table>
 								</td>
@@ -46,7 +46,7 @@
 			}
 			%>
 			
-			<form action="FecharPedido" id="formFecharPedido" method="POST">
+			<form action="FecharPedidoServlet" id="formFecharPedido" method="POST">
 				<select name="formaDePagamento" id="selectFormaDePagamento">
 					<%
 						PedidoControle pc = new PedidoControle();
@@ -54,7 +54,7 @@
 
 						for (Pagamento pagamento : formasDePagamento) {
 					%>
-							<option value="<%pagamento.getCodigo();%>"><%=pagamento.getFormaDePagamento() %></option>
+							<option value="<%=pagamento.getCodigo()%>"><%=pagamento.getFormaDePagamento() %></option>
 					<%
 						}
 					%>

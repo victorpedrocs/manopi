@@ -12,10 +12,10 @@ import controller.ConnectionFactory;
 
 public class PizzaDAO {
 	
-	//private Connection connection;
+	private Connection connection;
 	
-	public PizzaDAO() {
-		
+	public PizzaDAO(Connection con) {
+		this.connection = con;
 	}
 	
 	public Collection<Pizza> retrieve(Pizza pizza){
@@ -23,7 +23,7 @@ public class PizzaDAO {
 		ResultSet result;
 		
 		try {
-			statement = ConnectionFactory.getConnection().createStatement();
+			statement = this.connection.createStatement();
 			StringBuilder sql = new StringBuilder();
 			
 			Integer codigo = pizza.getCodigo();
@@ -59,14 +59,14 @@ public class PizzaDAO {
 			System.err.println("ERRO de SQL, tente novamente");
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage()));
 			return null;
-		}
+		}/*
 		finally {
 			try {
 				ConnectionFactory.getConnection().close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	public ArrayList<Pizza> listarPizzas() throws SQLException {

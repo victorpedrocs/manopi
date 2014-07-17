@@ -9,10 +9,10 @@ import controller.ConnectionFactory;
 
 public class ClienteDAO {
 
+	private Connection connection;
 	
-	
-	public ClienteDAO(){
-		
+	public ClienteDAO(Connection con){
+		this.connection = con;
 	}
 	
 	public Cliente retrieve(Cliente cliente){
@@ -20,7 +20,7 @@ public class ClienteDAO {
 		ResultSet result;
 		
 		try {
-			statement = ConnectionFactory.getConnection().createStatement();
+			statement = this.connection.createStatement();
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT codigo, telefone, nome, endereco FROM cliente WHERE 1=1 ");
 			
@@ -63,14 +63,14 @@ public class ClienteDAO {
 			System.err.println("ERRO de SQL, tente novamente");
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage()));
 			return null;
-		}
+		}/*
 		finally {
 			try {
 				ConnectionFactory.getConnection().close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	public boolean create(Cliente cliente){
@@ -96,13 +96,13 @@ public class ClienteDAO {
 			System.err.println("ERRO de SQL, tente novamente");
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage())); e.printStackTrace();
 			return false;
-		}
+		}/*
 		finally {
 			try {
 				ConnectionFactory.getConnection().close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 }

@@ -27,7 +27,7 @@ public class PedidoDAO {
 		try {
 			statement = this.connection.createStatement();
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT codigo, cliente_fk, forma_de_pagamento_fk FROM pedido WHERE 1=1 ");
+			sql.append("SELECT codigo, cliente_fk, forma_de_pagamento_fk, total_pago, data_hora FROM pedido WHERE 1=1 ");
 			
 			String codigo = pedido.getCodigo();
 			Cliente cliente = pedido.getCliente();
@@ -53,8 +53,9 @@ public class PedidoDAO {
 			
 			
 			ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
+			ClienteDAO clienteDAO = new ClienteDAO(ConnectionFactory.getConnection());
 			while (result.next()) {
-				Cliente clienteResultado = new ClienteDAO().retrieve(new Cliente(result.getInt("CLIENTE_FK"), null, null, null));
+				Cliente clienteResultado = clienteDAO.retrieve(new Cliente(result.getInt("CLIENTE_FK"), null, null, null));
 				Pagamento pagamentoResultado = new PagamentoDAO(this.connection).retrieve(new Pagamento(result.getInt("FORMA_DE_PAGAMENTO_FK"), null)).iterator().next();
 				pedidos.add(new Pedido(result.getString("CODIGO"), clienteResultado , pagamentoResultado, result.getDouble("TOTAL_PAGO")));
 			}
@@ -85,7 +86,7 @@ public class PedidoDAO {
 			StringBuilder sql = new StringBuilder();
 			if (pedido.validFields()) {
 				sql.append("INSERT INTO pedido (codigo, cliente_fk, forma_de_pagamento_fk, data_hora) VALUES(")
-					.append("'").append(pedido.getCodigo()).append("'")
+					.append("'").append(pedido.getCodigo()).append("',")
 					.append(pedido.getCliente().getCodigo()).append(",")
 					.append(pedido.getFormaPagamento().getCodigo()).append(",")
 					.append("current_timestamp)");

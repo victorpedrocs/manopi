@@ -1,9 +1,12 @@
 package controller;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -66,6 +69,26 @@ public class PedidoControle {
 		}
     	return pedidoSucesso && itemPedidoSucesso;
     }
-
+    
+    public Map<Pedido, ArrayList<PedidoPizza>> recuperarPedidosCliente(Cliente cliente){
+    	this.pedidoDAO = new PedidoDAO(ConnectionFactory.getConnection());
+    	
+    	PedidoDAO pedidoDAO = new PedidoDAO(ConnectionFactory.getConnection());
+    	PedidoPizzaDAO pedidoPizzaDAO = new PedidoPizzaDAO(ConnectionFactory.getConnection());
+    	
+    	
+    	Pedido pedidoQuery = new Pedido(null, cliente, null, null);
+    	ArrayList<Pedido> pedidos = (ArrayList<Pedido>) pedidoDAO.retrieve(pedidoQuery);
+    	HashMap<Pedido, ArrayList<PedidoPizza>> historicoPedido = new HashMap<Pedido, ArrayList<PedidoPizza>>();
+    	
+    	
+    	for (Pedido pedido : pedidos) {
+			PedidoPizza itemPedidoQuery = new PedidoPizza(null, pedido, null);
+			ArrayList<PedidoPizza> itensPedido = (ArrayList<PedidoPizza>) pedidoPizzaDAO.retrieve(itemPedidoQuery);
+			historicoPedido.put(pedido, itensPedido);
+		}
+    	
+    	return historicoPedido;
+    }
 
 }

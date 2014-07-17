@@ -15,7 +15,7 @@ public class Pedido {
 	private Double totalPago;
 	
 	public Pedido(String codigo, Cliente cliente, Pagamento formaPagamento, Double totalPago) {
-		this.codigo = codigo != null ? UUID.fromString(codigo) : UUID.randomUUID();
+		this.codigo = codigo != null ? UUID.fromString(codigo) : null;
 		this.cliente = cliente;
 		this.formaPagamento = formaPagamento;
 		this.totalPago = totalPago;
@@ -70,7 +70,7 @@ public class Pedido {
 	}
 	
 	public String getCodigo() {
-		return codigo.toString();
+		return codigo != null ? codigo.toString() : null;
 	}
 
 	public Cliente getCliente() {

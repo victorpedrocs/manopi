@@ -79,13 +79,13 @@ public class PagamentoDAO {
 			System.err.println("ERRO de SQL, tente novamente");
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage()));
 			return null;
-		}
+		}/*
 		finally {
 			try {
 				this.connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 }
