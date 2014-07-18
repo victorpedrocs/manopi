@@ -1,0 +1,30 @@
+package test.functional;
+
+import static org.junit.Assert.assertEquals;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import cardapio.model.PizzaDAO;
+
+public class TestPizzaDAO {
+	private static Connection conn;
+	
+	
+	@BeforeClass
+	public static void prepararTeste() throws SQLException{
+		conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/web_pizza", "postgres",  "postgres");
+		
+	}
+	
+	@Test
+	public static void testPizzaRetrieve(){
+		PizzaDAO pizzaDAO = new PizzaDAO(conn);
+		
+	}
+
+}

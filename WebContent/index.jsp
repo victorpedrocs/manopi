@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<%@page import="controller.CardapioControle"%>
+<%@page import="cardapio.controller.CardapioControle"%>
+<%@page import="cardapio.model.Pizza" %>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.lang.reflect.Array"%>
-<%@ page import="model.*"%>
 <%@ include file="header.jsp"%>
 
 <head>
@@ -19,8 +19,10 @@
             <div class="col-md-3">
                 <p class="lead">Pizzaria do Manolo</p>
                 <div class="list-group">
-                    <a href="pedidos.jsp" class="list-group-item">Fazer Pedido</a>
-                    <a href="HistoricoPedido" class="list-group-item">Lista de Pedidos</a>
+                    <%if(request.getSession().getAttribute("clienteLogado") != null){%>
+                    	<a href="pedidos.jsp" class="list-group-item">Fazer Pedido</a>
+						 <a href="HistoricoPedido" class="list-group-item">Lista de Pedidos</a>
+					<% }%>
                 </div>
             </div>
 

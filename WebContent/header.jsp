@@ -15,6 +15,7 @@
 	    <link href="css/shop-homepage.css" rel="stylesheet">
 	    <link href="css/bootstrap.min.css" rel="stylesheet">
 	    <link href="css/signin.css" rel="stylesheet">
+	    <link href="css/pedidos.css" rel="stylesheet">
 
 	    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
 	    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -41,12 +42,15 @@
 		            <!-- Collect the nav links, forms, and other content for toggling -->
 		            <div class="collapse navbar-collapse navbar-ex1-collapse">
 		                <ul class="nav navbar-nav">
-		                    <li><a href="#about">Fazer Pedido</a>
+			                <%if(request.getSession().getAttribute("clienteLogado") != null){%>
+								<li><a href="pedidos.jsp">Fazer Pedido</a>
+							<% }%>
 		                </ul>
 		                <!-- Login button with dropdown -->
 		                <ul class="nav pull-right navbar-nav">
 		                <%if(request.getSession().getAttribute("clienteLogado") != null){%>
-							<li><a>Olá, <%= request.getSession().getAttribute("nomeClienteLogado") %></a></li>
+							<li><a>Olá, <%= request.getSession().getAttribute("nomeClienteLogado") %></a></li> 
+							<li><a href="LogoutServlet">Sair</a></li>
 						<% }else{ %>
 		                    <li> <a href="login.jsp">Login</a></li>
 		                <% } %>

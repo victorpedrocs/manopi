@@ -4,8 +4,8 @@
 <%@page
 	import="java.util.HashMap, java.util.ArrayList, java.util.Collections"%>
 <%@ include file="header.jsp"%>
-<%@ page import="model.*"%>
-
+<%@ page import="pedido.model.Pedido"%>
+<%@ page import="pedido.model.PedidoPizza"%>
 
 <body>
 	<div class="container">

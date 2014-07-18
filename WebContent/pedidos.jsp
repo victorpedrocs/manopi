@@ -1,11 +1,13 @@
 <%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
-<%@page import="controller.PedidoControle"%>
-<%@page import="controller.CardapioControle"%>
+<%@page import="pedido.controller.PedidoControle"%>
+<%@page import="cardapio.controller.CardapioControle"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap, java.util.ArrayList, java.util.Collections" %>
 <%@ include file="header.jsp"%>
-<%@ page import="model.*"%>
-
+<%@ page import="pedido.model.PedidoPizza"%>
+<%@ page import="pedido.model.Pedido"%>
+<%@ page import="pedido.model.Pagamento"%>
+<%@ page import="cardapio.model.Pizza"%>
 
 <body>
 	<div class="container">
@@ -19,9 +21,6 @@
 					</tr>
 			</table>
 			
-			
-			
-			<a href="#modal" id="linkAdicionarPizzas">Adicionar pizzas</a>
 			
 			<% if(session.getAttribute("itens") != null) {%>
 				<table>
@@ -41,30 +40,35 @@
 							</tr>
 						<%}%>
 				</table>
-				<input type="submit" value="Forma de Pagamento" id="inputFecharPedido">
 			<%
 			}
 			%>
 			
 			<form action="FecharPedidoServlet" id="formFecharPedido" method="POST">
-				<select name="formaDePagamento" id="selectFormaDePagamento">
-					<%
-						PedidoControle pc = new PedidoControle();
-						ArrayList<Pagamento> formasDePagamento = pc.listarFormaDePagamento();
-
-						for (Pagamento pagamento : formasDePagamento) {
-					%>
-							<option value="<%=pagamento.getCodigo()%>"><%=pagamento.getFormaDePagamento() %></option>
-					<%
-						}
-					%>
-				</select>
-				
-				<div id="divValorTroco">
-					Troco: R$ <input type="text" name="valorTroco" style="padding-top: 5px;">
+				<div class="form-group col-sm-*">
+					<label for="selectFormaDePagamento">Forma de Pagamento</label> 
+					<select class="inline" name="formaDePagamento" id="selectFormaDePagamento">
+						<%
+							PedidoControle pc = new PedidoControle();
+							ArrayList<Pagamento> formasDePagamento = pc.listarFormaDePagamento();
+	
+							for (Pagamento pagamento : formasDePagamento) {
+						%>
+								<option value="<%=pagamento.getCodigo()%>"><%=pagamento.getFormaDePagamento() %></option>
+						<%
+							}
+						%>
+					</select>
+				</div>
+				<div class="form-group" id="divValorTroco">
+					<label for="valor_troco">Valor de Pagamento</label>
+					<input type="text" placeholder="R$" id="valor_troco" name="valorTroco" style="padding-top: 5px;">
 				</div>
 				
-				<input type="submit" value="Finalizar Pedido" >
+				<div class="container">
+					<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Adicionar Pizza</button>
+					<input type="submit" class="btn btn-primary" value="Finalizar Pedido">
+				</div>
 			</form>
 		
 		
@@ -85,7 +89,7 @@
 						<span>DATA:</span>
 						<%=pedido.getDataHora() %><br /> <span>TOTAL:</span> R$
 						<%=pedido.recuperarValorTotal()%><br /> <span>TIPO PAGAMENTO:</span>
-						<%=pedido.getFormaPagamento()%><br />
+						<%=pedido.getFormaPagamento().getFormaDePagamento()%><br />
 
 
 					</div>
@@ -102,30 +106,39 @@
 		</div>
 	</body>
 
-	<div id="modal">
-		<div >
-			<form action="AdicionaPizzaServlet">
-				<div>
-					<p>Sabor:</p><select name="nomePizza">
-						<%
-						CardapioControle cc = new CardapioControle();
-						ArrayList<Pizza> cardapio = cc.listarPizzas();
-							
-							for(Pizza pizza: cardapio) {
-						%>
-								<option><%=pizza.getNome()%></option>
-						<%
-							}
-						%>
-					</select>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="AdicionaPizzaServlet" method="post">
+				<div class="modal-content">
+					<div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Adicionar Pizza</h4>
+				      </div>	
+				      <div class="modal-body">
+					      	<p>Sabor:</p><select name="nomePizza">
+							<%
+							CardapioControle cc = new CardapioControle();
+							ArrayList<Pizza> cardapio = cc.listarPizzas();
+								
+								for(Pizza pizza: cardapio) {
+							%>
+									<option><%=pizza.getNome()%></option>
+							<%
+								}
+							%>
+							</select>
+							<div>
+								<p>Quantidade:</p><input type="text" name="quantidade"/>
+							</div>
+			      	</div>
+			      	<div class="modal-footer">
+			      		<button type="button" class="btn" data-dismiss="modal">Cancelar</button>
+						<input type="submit" class="btn btn-default" value="Adicionar" />
+					</div>
+						
 				</div>
-				<div>
-					<p>Quantidade:</p><input type="text" name="quantidade"/>
-				</div>
-				<div>
-					<input type="submit" value="Adicionar" />
-					<a href="#" class="button">Cancelar</a>
-				</div>
+				
+				
 			</form>
 		</div>
 	</div>
