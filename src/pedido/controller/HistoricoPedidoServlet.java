@@ -2,7 +2,9 @@ package pedido.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,13 +49,21 @@ public class HistoricoPedidoServlet extends HttpServlet {
 	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Comparator<Pedido> customComparator = new Comparator<Pedido>() {
+			@Override
+			public int compare(Pedido pedido1, Pedido pedido2){
+				return pedido2.getDataHora().compareTo(pedido1.getDataHora());
+			}
+		};
+		
 		HttpSession session = request.getSession(true);
 		
 		PedidoControle pedidoControle = new PedidoControle();
 		
 		Cliente cliente = (Cliente) session.getAttribute("clienteLogado");
 		if (cliente != null) {
-			HashMap<Pedido, ArrayList<PedidoPizza>> historico = (HashMap<Pedido, ArrayList<PedidoPizza>>) pedidoControle.recuperarPedidosCliente(cliente);
+			TreeMap<Pedido, ArrayList<PedidoPizza>> historico = new TreeMap<>(customComparator);
+			historico.putAll((HashMap<Pedido, ArrayList<PedidoPizza>>) pedidoControle.recuperarPedidosCliente(cliente));
 			
 			session.setAttribute("historicoPedidos", historico);
 		}

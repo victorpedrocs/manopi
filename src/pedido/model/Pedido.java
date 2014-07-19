@@ -22,6 +22,14 @@ public class Pedido {
 		this.totalPago = totalPago;
 	}
 	
+	public Pedido(String codigo, Cliente cliente, Pagamento formaPagamento, Double totalPago, Timestamp dataHora) {
+		this.codigo = codigo != null ? UUID.fromString(codigo) : null;
+		this.cliente = cliente;
+		this.formaPagamento = formaPagamento;
+		this.totalPago = totalPago;
+		this.dataHora = dataHora;
+	}
+	
 	public Pedido(Cliente cliente, Pagamento pagamento) {
 		this.codigo = UUID.randomUUID();
 		this.cliente = cliente;

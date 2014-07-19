@@ -23,22 +23,27 @@
 			
 			
 			<% if(session.getAttribute("itens") != null) {%>
-				<table>
-					<%for(PedidoPizza itemPedido : (ArrayList<PedidoPizza>) session.getAttribute("itens")){%>
+				<table class="table table-hover half-page-table">
+					<thead>
+						<th>Sabor</th>
+						<th>Quantidade</th>
+						<th>Valor</th>
+						<th></th>
+					</thead>
+					<tbody>
+					<%ArrayList<PedidoPizza> itensPedido = (ArrayList<PedidoPizza>) session.getAttribute("itens"); %>
+					<%for(int i = 0 ; i < itensPedido.size() ; i++){
+						PedidoPizza itemPedido = itensPedido.get(i);%>
 							<tr>
-								<td>Sabor : <%= itemPedido.getPizza().getNome() %></td>
-								<td>
-									<table>
-										<tr>
-											<td>Quantidade : <%= itemPedido.getQuantidade() %></td>
-										</tr>
-										<tr>
-											<td>Valor: <%= itemPedido.calculaTotal() %></td>
-										</tr>
-									</table>
-								</td>
+								<td><%= itemPedido.getPizza().getNome() %></td>
+								<td><%= itemPedido.getQuantidade() %></td>
+								<td><%= itemPedido.calculaTotal() %></td>
+								<td><form method="post" action="removerItem">
+									<input type="hidden" name="indiceItem" value="<%=i%>"><input type="submit" class="btn btn-sm btn-danger" value="Remover"/> 
+									</form></td>
 							</tr>
 						<%}%>
+					</tbody>
 				</table>
 			<%
 			}
@@ -66,41 +71,10 @@
 				</div>
 				
 				<div class="container">
-					<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Adicionar Pizza</button>
-					<input type="submit" class="btn btn-primary" value="Finalizar Pedido">
+					<button type="button" class="btn" data-toggle="modal" data-target="#myModal">Adicionar Pizza</button>
+					<input type="submit" class="btn btn-primary" value="Finalizar Pedido"/>
 				</div>
-			</form>
-		
-		
-		
-			<div><h3>Pedidos anteriores</h3></div>
-			
-			<ul>
-
-				<%
-					ArrayList<Pedido> pedidos = pc.listarPedidos();
-					
-					for (Pedido pedido : pedidos) {
-				%>
-
-				<li>
-					
-					<div class="overflow">
-						<span>DATA:</span>
-						<%=pedido.getDataHora() %><br /> <span>TOTAL:</span> R$
-						<%=pedido.recuperarValorTotal()%><br /> <span>TIPO PAGAMENTO:</span>
-						<%=pedido.getFormaPagamento().getFormaDePagamento()%><br />
-
-
-					</div>
-					
-					<div ></div>
-				</li>
-
-				<% } %>
-
-			</ul>
-		
+			</form>		
 		
 		<div class="clear"></div>
 		</div>

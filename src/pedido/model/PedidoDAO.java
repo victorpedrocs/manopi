@@ -59,7 +59,7 @@ public class PedidoDAO {
 			while (result.next()) {
 				Cliente clienteResultado = clienteDAO.retrieve(new Cliente(result.getInt("CLIENTE_FK"), null, null, null));
 				Pagamento pagamentoResultado = new PagamentoDAO(this.connection).retrieve(new Pagamento(result.getInt("FORMA_DE_PAGAMENTO_FK"), null)).iterator().next();
-				pedidos.add(new Pedido(result.getString("CODIGO"), clienteResultado , pagamentoResultado, result.getDouble("TOTAL_PAGO")));
+				pedidos.add( new Pedido( result.getString("CODIGO"), clienteResultado , pagamentoResultado, result.getDouble("TOTAL_PAGO"), result.getTimestamp("DATA_HORA") ) );
 			}
 			
 			return pedidos;
