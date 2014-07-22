@@ -77,7 +77,7 @@ public class FecharPedidoServlet extends HttpServlet {
         session.removeAttribute("formaDePagamento");
         session.removeAttribute("valorTroco");
         
-        RequestDispatcher rd = request.getRequestDispatcher("/pedidos.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("HistoricoPedido");
         rd.forward(request,response);
         
         
