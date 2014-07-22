@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <cliente codigo="1" login="developer" senha="developer" nome="Developer" telefone="102938" endereco="apsoierpoei"/>
+  <cliente codigo="9" login="dev" senha="dev" nome="dev" telefone="dev" endereco="dev"/>
+  <forma_de_pagamento codigo="1" nome="Dinheiro"/>
+  <forma_de_pagamento codigo="2" nome="Dinheiro com Troco"/>
+  <forma_de_pagamento codigo="3" nome="Cartao de Credito"/>
+  <forma_de_pagamento codigo="4" nome="Cartao de Debito"/>
+  <pedido codigo="0659b5fd-edc6-4be1-b445-047c5c683b20" cliente_fk="1" forma_de_pagamento_fk="1" data_hora="2014-07-17 22:41:22.8994"/>
+  <pedido codigo="1a344f37-7695-4ccc-b371-889343101f7d" cliente_fk="9" forma_de_pagamento_fk="1" data_hora="2014-07-20 10:02:40.494865"/>
+  <pedido codigo="3afa20f5-cf49-4cee-a7b4-774cae35ac8e" cliente_fk="9" forma_de_pagamento_fk="2" data_hora="2014-07-20 10:35:08.846818"/>
+  <pedido codigo="3f6c46d6-423b-495a-b054-04b2a591c003" cliente_fk="9" forma_de_pagamento_fk="4" data_hora="2014-07-20 09:59:57.279719"/>
+  <pedido codigo="40446905-1ab6-4c90-9653-c9f01587a84f" cliente_fk="9" forma_de_pagamento_fk="1" data_hora="2014-07-19 00:52:07.007467"/>
+  <pedido codigo="45a47183-b16b-4791-b809-70d949627ab3" cliente_fk="9" forma_de_pagamento_fk="1" data_hora="2014-07-18 23:50:13.035801"/>
+  <pedido codigo="54e429d1-752c-482e-9f1e-a52fae04aa2c" cliente_fk="9" forma_de_pagamento_fk="1" data_hora="2014-07-18 18:01:37.735512"/>
+  <pedido codigo="595719f3-e842-42ad-ad03-d4e103c85af4" cliente_fk="9" forma_de_pagamento_fk="1" data_hora="2014-07-20 09:57:21.872177"/>
+  <pedido codigo="8c706c53-a2e2-473a-8f2c-f930f42d300e" cliente_fk="1" forma_de_pagamento_fk="1" data_hora="2014-07-18 12:50:17.477195"/>
+  <pedido codigo="a8035c39-9d94-4897-ad28-f12a568fd283" cliente_fk="1" forma_de_pagamento_fk="3" data_hora="2014-07-17 22:38:17.094282"/>
+  <pedido codigo="ab3174bb-f2c6-4006-b0fd-03b92d691998" cliente_fk="9" forma_de_pagamento_fk="1" data_hora="2014-07-18 21:26:34.267891"/>
+  <pedido codigo="bc05ca58-2c9c-4eb6-938f-87b96b86987c" cliente_fk="9" forma_de_pagamento_fk="4" data_hora="2014-07-20 09:57:51.59353"/>
+  <pedido codigo="cca822c9-ef1b-4fba-a05b-07c8c772639b" cliente_fk="1" forma_de_pagamento_fk="1" data_hora="2014-07-17 20:33:47.441926"/>
+  <pedido codigo="e17c9e8c-cab0-4e1c-a36c-2ec233f30e92" cliente_fk="9" forma_de_pagamento_fk="3" data_hora="2014-07-18 21:49:41.323478"/>
+  <pedido codigo="f70e2c8a-cdc8-4b8c-aaba-c8efb2f8c22c" cliente_fk="1" forma_de_pagamento_fk="1" data_hora="2014-07-18 17:05:43.237473"/>
+  <pedido_pizza pizza_fk="4" pedido_fk="cca822c9-ef1b-4fba-a05b-07c8c772639b" quantidade="1"/>
+  <pedido_pizza pizza_fk="18" pedido_fk="cca822c9-ef1b-4fba-a05b-07c8c772639b" quantidade="1"/>
+  <pedido_pizza pizza_fk="5" pedido_fk="a8035c39-9d94-4897-ad28-f12a568fd283" quantidade="2"/>
+  <pedido_pizza pizza_fk="5" pedido_fk="a8035c39-9d94-4897-ad28-f12a568fd283" quantidade="2"/>
+  <pedido_pizza pizza_fk="5" pedido_fk="a8035c39-9d94-4897-ad28-f12a568fd283" quantidade="2"/>
+  <pedido_pizza pizza_fk="5" pedido_fk="a8035c39-9d94-4897-ad28-f12a568fd283" quantidade="2"/>
+  <pedido_pizza pizza_fk="5" pedido_fk="a8035c39-9d94-4897-ad28-f12a568fd283" quantidade="2"/>
+  <pedido_pizza pizza_fk="4" pedido_fk="0659b5fd-edc6-4be1-b445-047c5c683b20" quantidade="1"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="8c706c53-a2e2-473a-8f2c-f930f42d300e" quantidade="1"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="8c706c53-a2e2-473a-8f2c-f930f42d300e" quantidade="1"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="8c706c53-a2e2-473a-8f2c-f930f42d300e" quantidade="1"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="f70e2c8a-cdc8-4b8c-aaba-c8efb2f8c22c" quantidade="1"/>
+  <pedido_pizza pizza_fk="4" pedido_fk="f70e2c8a-cdc8-4b8c-aaba-c8efb2f8c22c" quantidade="2"/>
+  <pedido_pizza pizza_fk="4" pedido_fk="54e429d1-752c-482e-9f1e-a52fae04aa2c" quantidade="1"/>
+  <pedido_pizza pizza_fk="2" pedido_fk="54e429d1-752c-482e-9f1e-a52fae04aa2c" quantidade="1"/>
+  <pedido_pizza pizza_fk="2" pedido_fk="54e429d1-752c-482e-9f1e-a52fae04aa2c" quantidade="1"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="ab3174bb-f2c6-4006-b0fd-03b92d691998" quantidade="1"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="e17c9e8c-cab0-4e1c-a36c-2ec233f30e92" quantidade="1"/>
+  <pedido_pizza pizza_fk="9" pedido_fk="e17c9e8c-cab0-4e1c-a36c-2ec233f30e92" quantidade="1"/>
+  <pedido_pizza pizza_fk="14" pedido_fk="e17c9e8c-cab0-4e1c-a36c-2ec233f30e92" quantidade="1"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="45a47183-b16b-4791-b809-70d949627ab3" quantidade="1"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="40446905-1ab6-4c90-9653-c9f01587a84f" quantidade="4"/>
+  <pedido_pizza pizza_fk="1" pedido_fk="1a344f37-7695-4ccc-b371-889343101f7d" quantidade="1"/>
+  <pedido_pizza pizza_fk="5" pedido_fk="3afa20f5-cf49-4cee-a7b4-774cae35ac8e" quantidade="9"/>
+  <pizza codigo="1" nome="Alho e &#211;leo" ingredientes="Molho, mussarela, alho e &#243;leo, or&#233;gano" preco="20.0"/>
+  <pizza codigo="2" nome="Alicci" ingredientes="Molho, mussarela, alicci e or&#233;gano" preco="20.0"/>
+  <pizza codigo="3" nome="Americana" ingredientes="molho, mussarela, bacon, milho, ovos e or&#233;gano" preco="21.0"/>
+  <pizza codigo="4" nome="Atum" ingredientes="Molho, mussarela, atum e or&#233;gano" preco="22.0"/>
+  <pizza codigo="5" nome="Bacon" ingredientes="Molho, mussarela, bacon e or&#233;gano" preco="21.0"/>
+  <pizza codigo="6" nome="Baiana" ingredientes="Molho, mussarela, calabresa, pimenta e or&#233;gano" preco="25.0"/>
+  <pizza codigo="7" nome="Bolonhesa" ingredientes="Molho, mussarela, carne mo&#237;da e or&#233;gano" preco="25.0"/>
+  <pizza codigo="8" nome="Brasileira" ingredientes="Molho, mussarela, milho, ervilha e or&#233;gano" preco="20.0"/>
+  <pizza codigo="9" nome="Calabresa" ingredientes="Molho, mussarela, calabresa e or&#233;gano" preco="22.0"/>
+  <pizza codigo="10" nome="Catupiry" ingredientes="Molho, mussarela, catupiry e or&#233;gano" preco="21.0"/>
+  <pizza codigo="11" nome="Champignon" ingredientes="Molho, mussarela, champignon e or&#233;gano" preco="25.0"/>
+  <pizza codigo="12" nome="Escarola" ingredientes="Molho, mussarela, escarola, alho, bacon e or&#233;gano" preco="23.0"/>
+  <pizza codigo="13" nome="Frango" ingredientes="Molho, mussarela, frango e or&#233;gano" preco="21.0"/>
+  <pizza codigo="14" nome="Frango com Catupiry" ingredientes="Molho, mussarela, frango, catupiry e or&#233;gano" preco="22.0"/>
+  <pizza codigo="15" nome="Frango com Cheddar" ingredientes="Molho, mussarela, frango, cheddar e or&#233;gano" preco="22.0"/>
+  <pizza codigo="16" nome="Gorgonzola" ingredientes="Molho, mussarela, tomate, gorgonzola e or&#233;gano" preco="26.0"/>
+  <pizza codigo="17" nome="Grega" ingredientes="Molho, mussarela, lombo, cebola, palmito e or&#233;gano" preco="23.0"/>
+  <pizza codigo="18" nome="Havaiana" ingredientes="Molho, mussarela, lombo e abacaxi" preco="23.0"/>
+  <pizza codigo="19" nome="Humita" ingredientes="Molho, mussarela, presunto, milho e or&#233;gano" preco="22.0"/>
+  <pizza codigo="20" nome="Lombo" ingredientes="Molho, mussarela, lombo e or&#233;gano" preco="22.0"/>
+  <pizza codigo="21" nome="Lombo Calif&#243;rnia" ingredientes="Molho, mussarela, lombo, calif&#243;rnia e or&#233;gano" preco="23.0"/>
+  <pizza codigo="22" nome="Lombo com Catupiry" ingredientes="Molho, mussarela, lombo, catupiry e or&#233;gano" preco="24.0"/>
+  <pizza codigo="23" nome="Lombo com Champignon" ingredientes="Molho, mussarela, lombo, champignon e or&#233;gano" preco="24.0"/>
+  <pizza codigo="24" nome="Lombo com Cheddar" ingredientes="Molho, mussarela, lombo, cheddar e or&#233;gano" preco="24.0"/>
+  <pizza codigo="25" nome="Maguerita" ingredientes="Molho, mussarela, tomate e manjeric&#227;o" preco="28.0"/>
+  <pizza codigo="26" nome="Milho Verde" ingredientes="Molho, mussarela, milho verde e or&#233;gano" preco="23.0"/>
+  <pizza codigo="27" nome="Mussarela" ingredientes="Molho, mussarela e or&#233;gano" preco="27.0"/>
+  <pizza codigo="28" nome="Napolitana" ingredientes="Molho, mussarela, tomate, parmes&#227;o e or&#233;gano" preco="20.0"/>
+  <pizza codigo="29" nome="Palmito" ingredientes="Molho, mussarela, palmito e or&#233;gano" preco="21.0"/>
+  <pizza codigo="30" nome="Palmito Especial" ingredientes="Molho, mussarela, palmito, milho, bacon e or&#233;gano" preco="23.0"/>
+  <pizza codigo="31" nome="Parmegiana" ingredientes="Mussarela, molho ao sugo, parmes&#227;o e or&#233;gano" preco="25.0"/>
+  <pizza codigo="32" nome="Paulista" ingredientes="Molho, mussarela, palmito, ervilha e or&#233;gano" preco="23.0"/>
+  <pizza codigo="33" nome="Provolone" ingredientes="Molho, mussarela, provolone e or&#233;gano" preco="25.0"/>
+  <pizza codigo="34" nome="Romana" ingredientes="Molho, mussarela, presunto e or&#233;gano" preco="23.0"/>
+  <pizza codigo="43" nome="Br&#243;colis" ingredientes="Molho, mussarela, br&#243;colis, bacon, catupiry e or&#233;gano" preco="21.0"/>
+  <pizza codigo="45" nome="Calabresa Mineira" ingredientes="Molho, mussarela, calabresa, milho, bacon e or&#233;gano" preco="23.0"/>
+  <pizza codigo="46" nome="Camponesa" ingredientes="Molho, mussarela, frango, tomate picado, gorgonzola e manjeric&#227;o" preco="22.0"/>
+  <pizza codigo="49" nome="Crocante" ingredientes="Molho, mussarela, presunto, bacon, milho, batata palha e or&#233;gano" preco="24.0"/>
+  <pizza codigo="52" nome="Frango Caipira" ingredientes="Molho, mussarela, frango, catupiry, bacon, milho e or&#233;gano" preco="22.0"/>
+  <pizza codigo="61" nome="Lombo Canadense" ingredientes="Molho, mussarela, lombo, tomate, alicci, parmes&#227;o e or&#233;gano" preco="26.0"/>
+  <pizza codigo="65" nome="Lombo Especial" ingredientes="Molho, mussarela, lombo, champignon, catupiry e or&#233;gano" preco="27.0"/>
+  <pizza codigo="67" nome="Maiale" ingredientes="Molho, mussarela, lombo, calabresa, bacon e or&#233;gano" preco="22.0"/>
+  <pizza codigo="68" nome="Marinara" ingredientes="Molho, mussarela, atum, tomate picado, provolone e or&#233;gano" preco="23.0"/>
+  <pizza codigo="69" nome="Mexicana" ingredientes="Molho, mussarela, calabresa, cebola, pimenta e or&#233;gano" preco="22.0"/>
+  <pizza codigo="77" nome="Peruana" ingredientes="Massa, molho, mussarela, atum, cebola, ervilha e or&#233;gano" preco="23.0"/>
+  <pizza codigo="78" nome="Portuguesa" ingredientes="Molho, mussarela, presunto, cebola, ovos, azeitona e or&#233;gano" preco="26.0"/>
+  <pizza codigo="80" nome="QDel&#237;cia" ingredientes="Molho, mussarela, bolonhesa, cebola, batata palha e or&#233;gano" preco="27.0"/>
+  <pizza codigo="81" nome="Quatro Queijos" ingredientes="Molho, mussarela, provolone, parmes&#227;o, catupiry e or&#233;gano" preco="29.0"/>
+  <pizza codigo="83" nome="Siciliana" ingredientes="Molho, mussarela, champignon, bacon, piment&#227;o, azeitona e or&#233;gano" preco="20.0"/>
+  <pizza codigo="84" nome="Vegetariana" ingredientes="Molho, mussarela, escarola, tomate, milho, ervilha e or&#233;gano" preco="24.0"/>
+  <pizza codigo="145" nome="Calabresa com Catupiry" ingredientes="Molho, mussarela, calabresa, catupiry e or&#233;gano" preco="23.0"/>
+  <pizza codigo="146" nome="Calabresa com Cheddar" ingredientes="Molho, mussarela, calabresa, cheddar e or&#233;gano" preco="23.0"/>
+</dataset>

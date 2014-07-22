@@ -62,61 +62,64 @@ public class AdicionaPizzaServlet extends HttpServlet {
 		 * valorTotal
 		 * */
         String sabor = request.getParameter("nomePizza");
-        Integer quantidade = Integer.parseInt(request.getParameter("quantidade"));
-        PizzaDAO pizzaDAO = new PizzaDAO(ConnectionFactory.getConnection());
-        
+        String quantidadeString = request.getParameter("quantidade");
         HttpSession session = request.getSession(true);
         
-        try {
-                
-    		Pedido pedido = (Pedido) session.getAttribute("pedido");
-    		Pizza pizza  = pizzaDAO.recuperarPizza(sabor);
-    		PedidoPizza itemPedido;
-    		
-    		if (pedido != null) {
-    			itemPedido = new PedidoPizza(pizza, pedido, quantidade);
-			}
-    		else {
-    			Cliente cliente = (Cliente) session.getAttribute("clienteLogado");
-    			pedido = new Pedido(cliente, null);
-    			session.setAttribute("pedido", pedido);
-    			itemPedido = new PedidoPizza(pizza, pedido, quantidade);
-    		}
+        if (quantidadeString != null && quantidadeString != "") {
+        	Integer quantidade = Integer.parseInt(quantidadeString );
+
+            PizzaDAO pizzaDAO = new PizzaDAO(ConnectionFactory.getConnection());
             
-            
-            if (session.getAttribute("itens") == null) {
+            try {
                     
-        		ArrayList<PedidoPizza> itens = new ArrayList<PedidoPizza>();
+        		Pedido pedido = (Pedido) session.getAttribute("pedido");
+        		Pizza pizza  = pizzaDAO.retrieve(new Pizza(sabor, null)).iterator().next();
+        		PedidoPizza itemPedido;
+        		
+        		if (pedido != null) {
+        			itemPedido = new PedidoPizza(pizza, pedido, quantidade);
+    			}
+        		else {
+        			Cliente cliente = (Cliente) session.getAttribute("clienteLogado");
+        			pedido = new Pedido(cliente, null);
+        			session.setAttribute("pedido", pedido);
+        			itemPedido = new PedidoPizza(pizza, pedido, quantidade);
+        		}
                 
-                itens.add(itemPedido);
                 
-                session.setAttribute("itens", itens);
+                if (session.getAttribute("itens") == null) {
+                        
+            		ArrayList<PedidoPizza> itens = new ArrayList<PedidoPizza>();
                     
-	        } else {
-	              
-	            ArrayList<PedidoPizza> itens = (ArrayList<PedidoPizza>) session.getAttribute("itens");
-	            
-	            itens.add(itemPedido);
-	            
-	            session.setAttribute("itens", itens);
+                    itens.add(itemPedido);
                     
+                    session.setAttribute("itens", itens);
+                        
+    	        } else {
+    	              
+    	            ArrayList<PedidoPizza> itens = (ArrayList<PedidoPizza>) session.getAttribute("itens");
+    	            
+    	            itens.add(itemPedido);
+    	            
+    	            session.setAttribute("itens", itens);
+                        
+                }
+                    
+            } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
             }
-                
-        } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        }
+		}        
         
         ArrayList<PedidoPizza> itens = (ArrayList<PedidoPizza>) session.getAttribute("itens");
         
-        String detalhesPizza = "";
         double valorTotal = 0;
+        if (itens != null) {
+        	for (PedidoPizza item : itens) {
+                valorTotal += item.calculaTotal();
+            }
+		}
         
-        for (PedidoPizza item : itens) {
-            valorTotal += item.calculaTotal();
-        }
-        
-        session.setAttribute("detalhesPizza", detalhesPizza);
         session.setAttribute("valorTotal", valorTotal);
         
         RequestDispatcher rd = request.getRequestDispatcher("/pedidos.jsp");

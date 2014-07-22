@@ -12,7 +12,7 @@ public class CardapioControle {
 	public ArrayList<Pizza> listarPizzas() throws SQLException {
         PizzaDAO pDAO = new PizzaDAO(ConnectionFactory.getConnection());
 
-        ArrayList<Pizza> cardapio = pDAO.listarPizzas();
+        ArrayList<Pizza> cardapio = (ArrayList<Pizza>) pDAO.retrieve(new Pizza(null, null, null, null));
         
         return cardapio;
 	}

@@ -26,9 +26,7 @@ public class PedidoControle {
 	LoginControle loginControle;
     
     public PedidoControle() {
-    	this.pedidoDAO = new PedidoDAO(ConnectionFactory.getConnection());
         this.pagamentoDAO = new PagamentoDAO(ConnectionFactory.getConnection());
-        this.pedidoPizzaDAO = new PedidoPizzaDAO(ConnectionFactory.getConnection());
         this.loginControle = new LoginControle();
     }
     
@@ -43,21 +41,24 @@ public class PedidoControle {
     }
     
     public ArrayList<Pedido> listarPedidos() {
+    	pedidoDAO = new PedidoDAO(ConnectionFactory.getConnection());
     		
-            Cliente cliente = loginControle.retornaClienteLogado();
-            
-            ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
-            
-            Collection<Pedido> pedidosTeste= pedidoDAO.retrieve(new Pedido(null, cliente, null, null)); 
-            if(pedidosTeste != null){
-            	pedidos.addAll(pedidosTeste);
-            	return pedidos;
-            }
-            
-            return null;
+        Cliente cliente = loginControle.retornaClienteLogado();
+        
+        ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
+        
+        Collection<Pedido> pedidosTeste= pedidoDAO.retrieve(new Pedido(null, cliente, null, null)); 
+        if(pedidosTeste != null){
+        	pedidos.addAll(pedidosTeste);
+        	return pedidos;
+        }
+        
+        return null;
     }
     
     public boolean fecharPedido(Pedido pedido, Pagamento pagamento, Collection<PedidoPizza> itensPedido, Double valorTroco){
+    	this.pedidoDAO = new PedidoDAO(ConnectionFactory.getConnection());
+    	this.pedidoPizzaDAO = new PedidoPizzaDAO(ConnectionFactory.getConnection());
     	pedido.alterarFormaDePagamento(pagamento);
     	pedido.atualizarTotalPago(valorTroco);
     	
@@ -71,9 +72,7 @@ public class PedidoControle {
     
     public Map<Pedido, ArrayList<PedidoPizza>> recuperarPedidosCliente(Cliente cliente){
     	this.pedidoDAO = new PedidoDAO(ConnectionFactory.getConnection());
-    	
-    	PedidoDAO pedidoDAO = new PedidoDAO(ConnectionFactory.getConnection());
-    	PedidoPizzaDAO pedidoPizzaDAO = new PedidoPizzaDAO(ConnectionFactory.getConnection());
+    	this.pedidoPizzaDAO = new PedidoPizzaDAO(ConnectionFactory.getConnection());
     	
     	
     	Pedido pedidoQuery = new Pedido(null, cliente, null, null);

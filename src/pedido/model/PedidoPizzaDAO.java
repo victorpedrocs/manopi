@@ -20,27 +20,25 @@ public class PedidoPizzaDAO {
 	}
 	
 	public Collection<PedidoPizza> retrieve(PedidoPizza pedidoPizza){
-		Statement statement;
 		ResultSet result;
 		
-		PedidoDAO pedidoDAO = new PedidoDAO(this.connection);
-		PizzaDAO pizzaDAO = new PizzaDAO(this.connection);
+		PedidoDAO pedidoDAO = new PedidoDAO(ConnectionFactory.getConnection());
+		PizzaDAO pizzaDAO = new PizzaDAO(ConnectionFactory.getConnection());
 		
-		try {
-			statement = this.connection.createStatement();
-			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT pizza_fk, pedido_fk, quantidade FROM pedido_pizza WHERE 1=1 ");
-			
-			Pedido pedido = pedidoPizza.getPedido();
-			Pizza pizza = pedidoPizza.getPizza();
-			
-			if (pedido != null && pedido.getCodigo() != null) {
-				sql.append("AND pedido_fk = '").append(pedido.getCodigo()).append("'");
-			}
-			if (pizza != null && pizza.getCodigo() != null) {
-				sql.append("AND pizza_fk = ").append(pizza.getCodigo());
-			}
-			
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT pizza_fk, pedido_fk, quantidade FROM pedido_pizza WHERE 1=1 ");
+		
+		Pedido pedido = pedidoPizza.getPedido();
+		Pizza pizza = pedidoPizza.getPizza();
+		
+		if (pedido != null && pedido.getCodigo() != null) {
+			sql.append("AND pedido_fk = '").append(pedido.getCodigo()).append("'");
+		}
+		if (pizza != null && pizza.getCodigo() != null) {
+			sql.append("AND pizza_fk = ").append(pizza.getCodigo());
+		}
+		
+		try (Statement statement = this.connection.createStatement()){
 			
 			result = statement.executeQuery(sql.toString());
 			
@@ -59,21 +57,13 @@ public class PedidoPizzaDAO {
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage()));
 			return null;
 		}
-		/*finally {
-			try {
-				this.connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}*/
 	}
 	
 	public boolean create(PedidoPizza itemPedido){
-		Statement statement;
 		
-		try {
+		try (Statement statement = this.connection.createStatement()){
 			
-			statement = this.connection.createStatement();
+			
 			StringBuilder sql = new StringBuilder();
 			if (itemPedido.validFields()) {
 				sql.append("INSERT INTO pedido_pizza (pizza_fk, pedido_fk, quantidade) VALUES(")
@@ -92,13 +82,6 @@ public class PedidoPizzaDAO {
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage())); e.printStackTrace();
 			return false;
 		}
-		/*finally {
-			try {
-				ConnectionFactory.getConnection().close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}*/
 	}
 	
 	

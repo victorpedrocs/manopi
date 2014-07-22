@@ -15,12 +15,12 @@ public class ClienteDAO {
 		this.connection = con;
 	}
 	
-	public Cliente retrieve(Cliente cliente){
-		Statement statement;
-		ResultSet result;
+	public Cliente retrieve(Cliente cliente){		
 		
-		try {
-			statement = this.connection.createStatement();
+		try (Statement statement = this.connection.createStatement() ){
+			
+			ResultSet result;
+			
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT codigo, telefone, nome, endereco FROM cliente WHERE 1=1 ");
 			
@@ -63,23 +63,13 @@ public class ClienteDAO {
 			System.err.println("ERRO de SQL, tente novamente");
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage()));
 			return null;
-		}/*
-		finally {
-			try {
-				ConnectionFactory.getConnection().close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}*/
+		}
 	}
 	
 	public boolean create(Cliente cliente){
 		
-		Statement statement;
-		
-		try {
+		try ( Statement statement = ConnectionFactory.getConnection().createStatement() ){
 			
-			statement = ConnectionFactory.getConnection().createStatement();
 			StringBuilder sql = new StringBuilder();
 			sql.append("INSERT INTO cliente (login, senha, nome, telefone, endereco) VALUES(")
 				.append("'").append(cliente.getLogin()).append("',")
@@ -96,13 +86,6 @@ public class ClienteDAO {
 			System.err.println("ERRO de SQL, tente novamente");
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage())); e.printStackTrace();
 			return false;
-		}/*
-		finally {
-			try {
-				ConnectionFactory.getConnection().close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}*/
+		}
 	}
 }

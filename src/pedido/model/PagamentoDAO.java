@@ -17,42 +17,12 @@ public class PagamentoDAO {
 		this.connection = con;
 	}
 	
-	public Pagamento recuperarPagamento(String tipo_pagamento) {
-        
-        String sql = "SELECT codigo FROM forma_de_pagamento WHERE nome = ?";
-
-        PreparedStatement pstm = null;
-        
-        try {
-                
-                pstm = ConnectionFactory.getConnection().prepareStatement(sql);
-                
-                pstm.setString(1, tipo_pagamento);
-
-                ResultSet resultado = pstm.executeQuery();
-
-                if(resultado.next()) {
-                        
-                        int cod_pagamento = resultado.getInt(1);
-                        
-                        Pagamento pagamento = new Pagamento(cod_pagamento, tipo_pagamento);
-                        
-                        return pagamento;
-                }
-        } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        }
-
-        return null;
-}
-	
 	public Collection<Pagamento> retrieve(Pagamento pagamento){
-		Statement statement;
-		ResultSet result;
 		
-		try {
-			statement = this.connection.createStatement();
+		
+		try (Statement statement = this.connection.createStatement()){
+			ResultSet result;
+			
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT codigo, nome FROM forma_de_pagamento WHERE 1=1 ");
 			
@@ -69,6 +39,7 @@ public class PagamentoDAO {
 			result = statement.executeQuery(sql.toString());
 			
 			ArrayList<Pagamento> pagamentos = new ArrayList<>();
+			
 			while (result.next()) {
 				pagamentos.add(new Pagamento(result.getInt("CODIGO"), result.getString("nome")));
 			}
@@ -79,13 +50,6 @@ public class PagamentoDAO {
 			System.err.println("ERRO de SQL, tente novamente");
 			System.err.println(new StringBuilder("Motivo: ").append(e.getMessage()));
 			return null;
-		}/*
-		finally {
-			try {
-				this.connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}*/
+		}
 	}
 }
