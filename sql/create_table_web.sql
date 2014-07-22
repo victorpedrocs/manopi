@@ -4,7 +4,9 @@ create table cliente(
   senha varchar(50),
   nome varchar(80),
   telefone varchar(20),
-  endereco varchar(150)
+  endereco varchar(150),
+  
+  constraint login_cliente_unique unique (login);
 );
 
 create table pizza(
@@ -23,6 +25,7 @@ create table pedido(
   codigo varchar primary key,
   cliente_fk integer,
   forma_de_pagamento_fk integer,
+  total_pago float,
   data_hora timestamp,
   
   constraint fk_pedido_cliente foreign key (cliente_fk) references cliente(codigo),

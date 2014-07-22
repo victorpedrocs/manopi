@@ -6,14 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
+import static org.junit.Assert.assertEquals;
 import pedido.model.Pagamento;
 import pedido.model.PagamentoDAO;
 import pedido.model.Pedido;
 import pedido.model.PedidoDAO;
+import test.mock.PedidoMock;
 import util.ConnectionFactory;
 import cliente.model.Cliente;
 import cliente.model.ClienteDAO;
@@ -47,11 +49,11 @@ public class TestPedidoDAO {
 	}
 
 	@Test
-	public static void testPedidoCreate() throws SQLException{
+	public void testPedidoCreate() throws SQLException{
 		
 		Cliente clienteCreate = new Cliente(null, "teste", "teste", "teste", "teste", "teste");
 		Pagamento pagamentoCreate = new Pagamento(null, "Dinheiro");
-		Pedido pedidoTest = new Pedido(clienteCreate, pagamentoCreate);
+		PedidoMock pedidoTest = new PedidoMock(clienteCreate, pagamentoCreate);
 		new PedidoDAO(con).create(pedidoTest);
 		
 		String sql = "SELECT * FROM pedido WHERE codigo = ?";
@@ -64,11 +66,17 @@ public class TestPedidoDAO {
 		
 	}
 	
-	public static void testPedidoRetrieve(){
+	@Test
+	public void testPedidoRetrieve(){
 		
 		Pedido pedidoBanco = new PedidoDAO(con).retrieve(pedido).iterator().next();
 		
 		assertEquals(pedidoBanco.getCodigo(), pedido.getCodigo());
+		
+	}
+	
+	@AfterClass
+	public static void limpaDados(){
 		
 	}
 }

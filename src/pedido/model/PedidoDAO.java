@@ -84,7 +84,6 @@ public class PedidoDAO {
 			
 			
 			statement.executeUpdate(sql.toString());
-			statement.close();
 			return true;
 			
 		} catch (SQLException e) {

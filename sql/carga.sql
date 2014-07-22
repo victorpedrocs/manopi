@@ -56,3 +56,5 @@ INSERT INTO forma_de_pagamento (nome) VALUES ('Dinheiro') ;
 INSERT INTO forma_de_pagamento (nome) VALUES ('Dinheiro com Troco') ;
 INSERT INTO forma_de_pagamento (nome) VALUES ('Cartao de Credito') ;
 INSERT INTO forma_de_pagamento (nome) VALUES ('Cartao de Debito') ;
+
+INSERT INTO cliente (login, senha, nome, telefone, endereco) values ('dev', 'dev', 'nome', 'telefone', 'endereco');
