@@ -6,7 +6,7 @@ create table cliente(
   telefone varchar(20),
   endereco varchar(150),
   
-  constraint login_cliente_unique unique (login);
+  constraint login_cliente_unique unique (login)
 );
 
 create table pizza(
