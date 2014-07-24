@@ -79,7 +79,6 @@ public class ClienteDAO {
 				.append("'").append(cliente.getEndereco()).append("')");
 			
 			statement.executeUpdate(sql.toString());
-			statement.close();
 			return true;
 			
 		} catch (SQLException e) {

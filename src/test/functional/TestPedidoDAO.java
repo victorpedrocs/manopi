@@ -37,12 +37,7 @@ public class TestPedidoDAO {
 		pedido = new Pedido(cliente,pagamento);
 		
 		String sql = "INSERT INTO pedido (codigo, cliente_fk, forma_de_pagamento_fk, data_hora) values (?,?,?,?)";
-		PreparedStatement statement = con.prepareStatement(sql);
-		
-		statement.setString(1, pedido.getCodigo());
-		statement.setInt(2, cliente.getCodigo());
-		statement.setInt(3, pagamento.getCodigo());
-		statement.setTimestamp(4, pedido.getDataHora());
+		PreparedStatement statement = prepareStatement(sql);
 		
 		statement.executeUpdate();
 		
@@ -76,7 +71,21 @@ public class TestPedidoDAO {
 	}
 	
 	@AfterClass
-	public static void limpaDados(){
+	public static void limpaDados() throws SQLException{
 		
+		String sql = "DELETE FROM pedido WHERE codigo = ? AND cliente_fk = ? AND forma_de_pagamento_fk = ? AND data_hora = ?";
+		PreparedStatement statement = prepareStatement(sql);
+		statement.executeUpdate();
+		
+	}
+	
+	private static PreparedStatement prepareStatement(String sql) throws SQLException{
+		PreparedStatement statement = con.prepareStatement(sql);
+		
+		statement.setString(1, pedido.getCodigo());
+		statement.setInt(2, cliente.getCodigo());
+		statement.setInt(3, pagamento.getCodigo());
+		statement.setTimestamp(4, pedido.getDataHora());
+		return statement;
 	}
 }
