@@ -26,7 +26,7 @@ public class TestPedido {
 	
 	@Test
 	public void testAtualizarTotalPago(){
-		Pedido pedido = new PedidoDAO(ConnectionFactory.getConnection()).retrieve(new Pedido(null, null, null, null) ).iterator().next();
+		Pedido pedido = new Pedido(null, null, null, null);
 		
 		assertEquals(true, pedido.atualizarTotalPago(100d));
 		assertEquals(new Double(100), pedido.getTotalPago());

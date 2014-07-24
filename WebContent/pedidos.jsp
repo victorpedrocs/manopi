@@ -38,7 +38,7 @@
 								<td><%= itemPedido.getPizza().getNome() %></td>
 								<td><%= itemPedido.getQuantidade() %></td>
 								<td><%= itemPedido.calculaTotal() %></td>
-								<td><form method="post" action="removerItem">
+								<td><form method="post" action="removerItem" id="formRemover">
 									<input type="hidden" name="indiceItem" value="<%=i%>"><input type="submit" class="btn btn-sm btn-danger" value="Remover"/> 
 									</form></td>
 							</tr>
@@ -71,7 +71,7 @@
 				</div>
 				
 				<div class="container">
-					<button type="button" class="btn" data-toggle="modal" data-target="#myModal">Adicionar Pizza</button>
+					<button type="button" id="addPizza" class="btn" data-toggle="modal" data-target="#myModal">Adicionar Pizza</button>
 					<input type="submit" class="btn btn-primary" value="Finalizar Pedido"/>
 				</div>
 			</form>		
@@ -82,7 +82,7 @@
 
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<form action="AdicionaPizzaServlet" method="post">
+			<form action="AdicionaPizzaServlet" method="post" id="formPizza">
 				<div class="modal-content">
 					<div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>

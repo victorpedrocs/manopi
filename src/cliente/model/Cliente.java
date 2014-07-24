@@ -47,7 +47,7 @@ public class Cliente {
         public Boolean validaLogin(){
         	if (this.login != null && this.senha != null) {
 				Connection connection = ConnectionFactory.getConnection();
-				
+				return true;
 				
 			}
         	return false;
