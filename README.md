@@ -8,6 +8,6 @@ Um sistema de gerenciamento de pedidos em uma pizzaria, que permite:
 
 =======
 
-Computação III - <a target="_blank" href="http://www.cc.ufrrj.br/">Curso de Ciência da Computação</a> - <a target="_blank" href="http://r1.ufrrj.br/im/wp/departamentos/dtl/">Departamento de Tecnologias e Linguagens</a><br>
+IM876 : T01 - Desenvolvimento de Aplicações e Internet - <a target="_blank" href="http://www.cc.ufrrj.br/">Curso de Ciência da Computação</a> - <a target="_blank" href="http://r1.ufrrj.br/im/wp/departamentos/dtl/">Departamento de Tecnologias e Linguagens</a><br>
 Professor Luís Fernando Orleans<br>
 <a target="_blank" href="http://www.ufrrj.br/portal/modulo/home/index.php">UFRRJ</a><br>
